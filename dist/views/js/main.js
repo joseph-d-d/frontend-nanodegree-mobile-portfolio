@@ -512,30 +512,21 @@ var items;
 var phases = [];
 // Moves the sliding background pizzas based on scroll position
 function updatePositions() {
-    var basicLefts = [];
-    var phaseCount = 0;
     /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
      Moves the calculation out side of the main forloop in updatePosistions and adds the possible outcomes to the phases array.
      ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-    for (var count = 0; count < 8; count++) {
+    for (var phaseCount = 0; phaseCount < 5; phaseCount++) {
         phases[phaseCount] = 100 * (Math.sin((document.body.scrollTop / 1250) + (phaseCount % 5)));
-        basicLefts[count] = items[count].basicLeft + phases[phaseCount] + 'px';
-        if(phaseCount < 4){
-            phaseCount++;
-        }
-        else{
-            phaseCount = 0;
-        }
     }
     var loopCount = 0;
     frame++;
     window.performance.mark("mark_start_frame");
     for (var i = 0; i < items.length; i++) {
         /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-         Uses the basicLefts array to reduce the complexity of the calculations.
+         Uses the phases array to reduce the complexity of the calculations.
          ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-        items[i].style.left = basicLefts[loopCount];
-        if (loopCount < 7) {
+        items[i].style.left = items[i].basicLeft + phases[loopCount] + 'px';
+        if (loopCount < 4) {
             loopCount++;
         }
         else {
